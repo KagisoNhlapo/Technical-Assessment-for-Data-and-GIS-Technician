@@ -1,0 +1,87 @@
+# Kagiso Nhlapo
+
+## Data Cleaning
+
+### Task:
+
+1)  Clean biodiversity data
+
+2)  Conduct exploratory analysis and provide some statistics and graphs
+
+3)  Create a country level summary of the data (eg. the total number of species per country)
+
+#### work flow:
+
+-   load packages
+
+-   read in the biodiversity data
+
+-   merge the sheets into one sheet with just two columns
+
+-   Create count of species per country column
+
+-   The data will have : country column, where each row is a country and species count column
+
+-   Create histograms to visualize how species numbers change between countries
+
+-   Do an anova to test if there are difference in countries \*
+
+### 1) Cleaning fo the data
+
+loading libraries
+
+```{r}
+
+library(tidyverse)
+library(readxl)
+```
+
+Reading the data
+
+```{r}
+
+Bio.dat <- read_xlsx("biodiversity_data.xlsx")
+
+print(Bio.dat)
+
+```
+
+Access all the sheets from the Bio.dat
+
+```{r}
+
+All_sheets <- excel_sheets(Bio.dat)
+
+print(All_sheets)
+
+```
+
+Read all the sheets names into a list of data frames
+
+```{r}
+
+New_data = lapply(setNames(All_sheets, All_sheets),  
+                    function(x) read_excel("biodiversity_data.xlsx", All_sheets = x)) 
+
+```
+
+Now combine all sheets into one long data frame
+
+```{r}
+
+combined_data <- bind_rows(New_data)
+
+head(combined_data)
+
+
+```
+
+
+### 2)  Conduct exploratory analysis and provide some statistics and graphs
+
+how the data looks per country (Plants and mammals)
+
+```{r}
+
+```
+
