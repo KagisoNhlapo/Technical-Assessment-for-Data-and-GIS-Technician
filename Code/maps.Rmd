@@ -1,0 +1,90 @@
+---
+title: "Creating maps"
+author: "Kagiso"
+date: "`r Sys.Date()`"
+output: html_document
+---
+---
+title: ""
+output: html_notebook
+---
+
+## These are the maps of conservation of African
+
+load the libraries
+
+```{r}
+library(tidyverse)
+library(sf)
+library(terra)
+library(grid)
+```
+
+load the data
+
+```{r}
+afriSHP <- st_read("african_countries_borders.shp")
+
+print(afriSHP)
+```
+
+```{r}
+RAST <- rast("C:/Users/NHLKAG001/Videos/Technical-Assessment-for-Data-and-GIS-Technician/Data/bii4africa_all.tif")
+print(RAST)
+```
+
+extract the biodiversity dat
+
+```{r}
+biodivRAST <- terra::extract(biodivRAST, afriSHP)
+print(biodivRAST)
+
+```
+
+join this data back to the shapefile dataset
+
+```{r}
+afriSHP$biodiv <- biodivRAST$biodivRast
+
+print(afriSHP)
+
+
+```
+
+join the Intactness Index, country and funding to the shapefile
+
+```{r}
+
+Mean_intactness<- aggregate(bii4africa_all ~ ID, data = biodivRAST, mean)
+
+```
+
+# creating map of Funding
+
+```{r}
+afriSHP$ID <- 1:59
+
+afriSHP <- left_join(afriSHP,Mean_intactness, by = "ID")
+
+```
+
+# creating map of biodiversity
+
+```{r}
+afriSHP
+```
+
+# creating map of intactness index
+
+```{r}
+I.index = ggplot()+geom_sf(afriSHP, aes(biodiv))
+
+```
+
+# plot all 3 maps ata high resolution 
+
+```{r}
+Maps <- ggrid(funding,
+              biodiv, 
+              I.index, )
+```

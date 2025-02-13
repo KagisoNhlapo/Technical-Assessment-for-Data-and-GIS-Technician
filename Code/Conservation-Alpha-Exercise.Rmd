@@ -34,34 +34,35 @@ loading libraries
 
 library(tidyverse)
 library(readxl)
+library(rio)
 ```
 
 Reading the data
 
 ```{r}
 
-Bio.dat <- read_xlsx("biodiversity_data.xlsx")
+Bio_data <- import_list("/Data/biodiversity_data.xlsx",
+                                   setclass = "tbl", rbind = TRUE)
 
-print(Bio.dat)
+print(Bio_data)
 
 ```
 
-Access all the sheets from the Bio.dat
 
 ```{r}
 
-All_sheets <- excel_sheets(Bio.dat)
+Country_level_data <- Bio_data %>%
+  group_by(Country) %>%
+  summarise(Diversity = n())
 
-print(All_sheets)
-
+print(Country_level_data)
 ```
 
 Read all the sheets names into a list of data frames
 
 ```{r}
 
-New_data = lapply(setNames(All_sheets, All_sheets),  
-                    function(x) read_excel("biodiversity_data.xlsx", All_sheets = x)) 
+barplot(Country_level_data$Diversity)
 
 ```
 
@@ -69,19 +70,17 @@ Now combine all sheets into one long data frame
 
 ```{r}
 
-combined_data <- bind_rows(New_data)
-
-head(combined_data)
+funding <- read.csv("C:/Users/NHLKAG001/Videos/Technical-Assessment-for-Data-and-GIS-Technician/Data/African_Conservation_Funding.csv")
 
 
 ```
 
-
-### 2)  Conduct exploratory analysis and provide some statistics and graphs
+### 2) Conduct exploratory analysis and provide some statistics and graphs
 
 how the data looks per country (Plants and mammals)
 
 ```{r}
 
-```
+full_data <- left_join(Country_level_data, funding, by = "Country")
 
+```
