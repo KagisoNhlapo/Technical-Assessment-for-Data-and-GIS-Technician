@@ -7,11 +7,6 @@ output:
   pdf_document: default
 ---
 
----
-title: "Technical Assessment"
-output: html_notebook
----
-
 # Conservation Funding Allocation Project
 
 ## Part One - Data cleaning & visualization
@@ -157,6 +152,13 @@ print(afriSHP)
 
 ```
 
+Set coordinate reference system to WGS 84
+
+```{r}
+afriSHP <- st_transform(afriSHP, crs = 4326)
+
+```
+
 I noticed that Cape Verde, Congo, Eswatini, and Ivory Coast are labeled using their former names in the shapefile. It’s important to update these names, as they need to match exactly with the country names used in all other datasets.
 
 ```{r}
@@ -180,6 +182,13 @@ Read the Raster for Intactness Index and plot the raster to see how it looks.
 RAST <- rast("/Data/bii4africa_all.tif")
 
 plot(RAST)
+```
+
+Seems like it has a CRS but we will also set it to WGS84
+
+```{r}
+
+crs(RAST)
 ```
 
 We don't have values for some North African countries, so I expect N/As for the Intactness Index in that region. I processed the data by extracting Intactness Index values using the Africa borders shapefile.
