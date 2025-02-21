@@ -34,7 +34,7 @@ Reading the data biodiversity data from the repository
 
 ```{r}
 
-Bio_data <- import_list("C:/Users/NHLKAG001/Videos/Technical-Assessment-for-Data-and-GIS-Technician//Data/biodiversity_data.xlsx",
+Bio_data <- import_list("/Data/Technical-Assessment-for-Data-and-GIS-Technician//Data/biodiversity_data.xlsx",
                                    setclass = "tbl", rbind = TRUE)
 
 print(Bio_data)
@@ -57,7 +57,7 @@ Read The conservation funding CSV file from the repository
 
 ```{r}
 
-Funding_data <- read.csv("C:/Users/NHLKAG001/Videos/Technical-Assessment-for-Data-and-GIS-Technician/Data/African_Conservation_Funding.csv")
+Funding_data <- read.csv("/Data/African_Conservation_Funding.csv")
 
 head(Funding_data)
 
@@ -149,7 +149,7 @@ ggplot(Funding.Diversity, aes(x = Country, y = Funding..Million.USD.)) +
 Loading the shapefile data for African countries, removing rows with missing ISO3 (three-letter country codes), and retaining the columns needed for analysis and mapping.
 
 ```{r}
-afriSHP <- st_read("C:/Users/NHLKAG001/Videos/Technical-Assessment-for-Data-and-GIS-Technician/Data/african_countries_borders/african_countries_borders.shp") %>%
+afriSHP <- st_read("/Data/african_countries_borders/african_countries_borders.shp") %>%
   filter(!is.na(ISO3)) %>%
   dplyr::select(ADM0_CODE,ADM0_NAME,Shape_Leng, Shape_Area,geometry)
 
@@ -177,7 +177,7 @@ afriSHP$ADM0_NAME <- gsub(pattern = "Cape Verde",
 Read the Raster for Intactness Index and plot the raster to see how it looks.
 
 ```{r}
-RAST <- rast("C:/Users/NHLKAG001/Videos/Technical-Assessment-for-Data-and-GIS-Technician/Data/bii4africa_all.tif")
+RAST <- rast("/Data/bii4africa_all.tif")
 
 plot(RAST)
 ```
